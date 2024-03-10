@@ -13,7 +13,7 @@ function Player({name, symbol}) {
     }
 
     function handleEditClick() {
-        setIsEditing(!isEditing);
+        setIsEditing((buttonStatus) => !buttonStatus);
     }
 
     return (
