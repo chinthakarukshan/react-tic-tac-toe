@@ -5,9 +5,23 @@ import { useState } from "react";
 function App() {
 
   const [activePlayer, setActivePlayer] = useState('X');
+  const [gameTurns, setGameTurns] = useState([]);
 
-  function handleActivePlayer() {
+  function handleActivePlayer(rowIndex, colIndex) {
     setActivePlayer((currentActivePlayer) => currentActivePlayer === 'X' ? 'O' : 'X');
+
+    setGameTurns((prevTurns) => {
+      let currentPlayer = 'X';
+
+      if (prevTurns.length > 0 && prevTurns[0].player === 'X') {
+        currentPlayer = 'O';
+      }
+
+      const latestTurns = [{square: {row: rowIndex, col: colIndex}, player:currentPlayer}, ...prevTurns];
+
+      return latestTurns;
+
+    });
   }
 
   return (
@@ -17,7 +31,7 @@ function App() {
           <Player initialName='Player 1' symbol="X" isActivePlayer={activePlayer === 'X'}/>
           <Player initialName='Player 2' symbol="O" isActivePlayer={activePlayer === 'O'}/>
         </ol>
-        <GameBoard onSelectActivePlayer={handleActivePlayer} activePlayerSymbol={activePlayer}/>
+        <GameBoard onSelectActivePlayer={handleActivePlayer} turns={gameTurns}/>
       </div>
     </main>
   );
