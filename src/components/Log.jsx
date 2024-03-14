@@ -1,4 +1,4 @@
-export default function Log({gameTurns}) {
+export default function Log({ gameTurns }) {
 
     //const auditLogs = gameTurns.map((gameTurn) => {});
 
