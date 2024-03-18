@@ -1,6 +1,7 @@
 import Player from "./components/player";
 import GameBoard from "./components/GameBoard";
 import Log from "./components/Log";
+import GameOver from "./components/GameOver";
 import { useState } from "react";
 import { WINNING_COMBINATIONS } from "./winning-combinations";
 
@@ -47,6 +48,8 @@ function App() {
 
   }
 
+  let isDraw = gameTurns.length === 9 && !winner;
+
   const activePlayer = getActivePlayer(gameTurns);
 
   function handleActivePlayer(rowIndex, colIndex) {
@@ -69,7 +72,7 @@ function App() {
           <Player initialName='Player 1' symbol="X" isActivePlayer={activePlayer === 'X'} />
           <Player initialName='Player 2' symbol="O" isActivePlayer={activePlayer === 'O'} />
         </ol>
-        {winner && <p>You won : {winner} !</p>}
+        {(winner || isDraw) && <GameOver winner={winner}/>}
         <GameBoard onSelectActivePlayer={handleActivePlayer} gameBoard={updatedGameBoard} />
       </div>
       <Log gameTurns={gameTurns} />
