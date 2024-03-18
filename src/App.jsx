@@ -26,12 +26,26 @@ function App() {
 
   const updatedGameBoard = initialBoard;
 
-    for (const turn of gameTurns) {
-        const {square, player} = turn;
-        const {row, col} = square;
+  let winner = null;
 
-        updatedGameBoard[row][col] = player;
+  for (const turn of gameTurns) {
+    const { square, player } = turn;
+    const { row, col } = square;
+
+    updatedGameBoard[row][col] = player;
+  }
+
+  for (const combination of WINNING_COMBINATIONS) {
+
+    const firstSquareSymbol = updatedGameBoard[combination[0].row][combination[0].col];
+    const secondSquareSymbol = updatedGameBoard[combination[1].row][combination[1].col];
+    const thirdSquareSymbol = updatedGameBoard[combination[2].row][combination[2].col];
+
+    if (firstSquareSymbol && secondSquareSymbol && thirdSquareSymbol && firstSquareSymbol === secondSquareSymbol && secondSquareSymbol === thirdSquareSymbol) {
+      winner = firstSquareSymbol;
     }
+
+  }
 
   const activePlayer = getActivePlayer(gameTurns);
 
@@ -55,6 +69,7 @@ function App() {
           <Player initialName='Player 1' symbol="X" isActivePlayer={activePlayer === 'X'} />
           <Player initialName='Player 2' symbol="O" isActivePlayer={activePlayer === 'O'} />
         </ol>
+        {winner && <p>You won : {winner} !</p>}
         <GameBoard onSelectActivePlayer={handleActivePlayer} gameBoard={updatedGameBoard} />
       </div>
       <Log gameTurns={gameTurns} />
